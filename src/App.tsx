@@ -25,6 +25,7 @@ const App: React.FC = () => {
   };
 
   const handleSearch = async () => {
+    
     if (!resume) {
       setErrorMessage('Please upload a resume file.');
       return; // Prevent search if resume is not uploaded
@@ -68,6 +69,18 @@ const App: React.FC = () => {
       console.log('Error occurred during search:', error);
     } finally {
       setLoading(false);
+    }
+    
+  };
+
+  // Set compatibility score color :)
+  const getCompatibilityScoreColor = (score: number) => {
+    if (score > 70) {
+      return 'green';
+    } else if (score < 40) {
+      return 'red';
+    } else {
+      return 'orange';
     }
   };
 
@@ -126,8 +139,8 @@ const App: React.FC = () => {
               <p className="job-info job-link">
                 Link: <a href={result.joblink}>{result.joblink}</a>
               </p>
-              <p className="job-info job-compatibility">
-                Compatibility: <span className="compatibility-score">{result.compatibility}%</span>
+              <p className="job-info job-compatibility">Compatibility:
+              <span className="compatibility-score" style={{ color: getCompatibilityScoreColor(result.compatibility) }}> {result.compatibility}%</span>
               </p>
             </div>
           ))}
